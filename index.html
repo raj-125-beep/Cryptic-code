@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banking Credit Score</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background-color: #0047ab;
+      padding: 20px;
+      color: white;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #0047ab;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #003380;
+    }
+    .score {
+      font-size: 2em;
+      margin-top: 20px;
+      color: #333;
+    }
+    .tips {
+      background: #fff;
+      padding: 15px;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bank Credit Score Analyzer</h1>
+    <p>Check and improve your credit health instantly</p>
+  </header>
+
+  <main>
+    <button onclick="checkScore()">Check My Score</button>
+    <div class="score" id="score"></div>
+
+    <div class="tips" id="tips"></div>
+  </main>
+
+  <script>
+    async function checkScore() {
+      const res = await fetch('/api/score');
+      const data = await res.json();
+      document.getElementById('score').textContent = `Your Credit Score: ${data.score}`;
+      
+      let tipsHtml = "<h3>Tips to Improve:</h3><ul>";
+      data.tips.forEach(tip => {
+        tipsHtml += `<li>${tip}</li>`;
+      });
+      tipsHtml += "</ul>";
+      document.getElementById('tips').innerHTML = tipsHtml;
+    }
+  </script>
+</body>
+</html>
